@@ -70,6 +70,26 @@ LABEL description="Stafli VestaCP Application (stafli/stafli.app.vestacp), Based
 # Packages
 #
 
+# Refresh the package manager
+# Install the selected packages
+#   Install the revision control packages
+#    - patch: for patch, the patch creator and applier tool
+#    - git: for git, the Git distributed revision control system client
+# Cleanup the package manager
+RUN printf "Installing repositories and packages...\n" && \
+    \
+    printf "Refresh the package manager...\n" && \
+    rpm --rebuilddb && yum makecache && \
+    \
+    printf "Install the selected packages...\n" && \
+    yum install -y \
+      patch git && \
+    \
+    printf "Cleanup the package manager...\n" && \
+    yum clean all && rm -Rf /var/lib/yum/* && rm -Rf /var/cache/yum/* && \
+    \
+    printf "Finished installing repositories and packages...\n";
+
 # Custom script
 RUN printf "Running custom script...\n" && \
     \

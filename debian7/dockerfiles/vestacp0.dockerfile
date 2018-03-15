@@ -69,6 +69,25 @@ LABEL description="Stafli VestaCP Application (stafli/stafli.app.vestacp), Based
 #
 # Packages
 #
+# Refresh the package manager
+# Install the selected packages
+#   Install the revision control packages
+#    - patch: for patch, the patch creator and applier tool
+#    - git: for git, the Git distributed revision control system client
+# Cleanup the package manager
+RUN printf "Installing repositories and packages...\n" && \
+    \
+    printf "Refresh the package manager...\n" && \
+    apt-get update && \
+    \
+    printf "Install the selected packages...\n" && \
+    apt-get install -qy \
+      patch git && \
+    \
+    printf "Cleanup the package manager...\n" && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && rm -Rf /var/cache/apt/* && \
+    \
+    printf "Finished installing repositories and packages...\n";
 
 # Custom script
 RUN printf "Running custom script...\n" && \
